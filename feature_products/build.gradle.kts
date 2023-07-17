@@ -1,24 +1,17 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("kotlin-kapt")
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "br.gohan.shopcart"
+    namespace = "br.gohan.feature_example"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "br.gohan.shopcart"
         minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -43,23 +36,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-    implementation(AndroidX.lifecycle)
-
+    implementation(AndroidX.core)
+    implementation(Compose.material3)
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
     implementation(Compose.toolingPreview)
     implementation(Compose.material3)
     implementation(Compose.navigation)
-
-    implementation(project(Project.appCore))
-    implementation(project(":feature_products"))
-    implementation(project(":feature_shopcart"))
 }

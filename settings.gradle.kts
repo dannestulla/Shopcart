@@ -13,6 +13,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "My Application"
+rootProject.name = "ShopCart"
 include(":app")
- 
+include(":app_core")
+include(":feature_products")
+include(":feature_shopcart")
