@@ -43,7 +43,13 @@ dependencies {
     implementation(Compose.material3)
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
-    implementation(Compose.toolingPreview)
+    debugImplementation(Compose.tooling)
     implementation(Compose.material3)
     implementation(Compose.navigation)
+    implementation(Compose.lifecycle)
+
+    implementation(Koin.android)
+    implementation(Koin.compose)
+
+
 }

@@ -44,6 +44,6 @@ dependencies {
     implementation(Compose.material3)
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
-    implementation(Compose.toolingPreview)
+    implementation(Compose.tooling)
     implementation(Compose.navigation)
 }
