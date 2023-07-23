@@ -45,5 +45,4 @@ dependencies {
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
     implementation(Compose.tooling)
-    implementation(Compose.navigation)
 }
