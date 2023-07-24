@@ -43,16 +43,15 @@ fun ProductsScreen() {
 }
 
 @Composable
-fun ProductsScreenStateless(productsState: ProductsState) {
+fun ProductsScreenStateless(products: List<ProductsState>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        val products = productsState.productsList ?: emptyList()
         LazyColumn {
             items(
-                productsState.productsList?.size ?: 0
+                products.size
             ) {
                 Card(
                     modifier = Modifier
@@ -81,11 +80,13 @@ fun ProductsScreenStateless(productsState: ProductsState) {
                             Text(
                                 text = products[it].name,
                                 textAlign = TextAlign.Center,
+                                maxLines = 2,
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
                                 text = products[it].description,
+                                maxLines = 2,
                                 textAlign = TextAlign.Center,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Normal
@@ -134,9 +135,9 @@ fun ProductsScreenStateless(productsState: ProductsState) {
 @Composable
 fun ProductsScreenPreview() {
     ProductsScreenStateless(
-        productsState = ProductsState(
+        products =
             listOf(
-                Products(
+                ProductsState(
                     name = "Laranja",
                     price = 2.0,
                     description = "Fruta",
@@ -146,5 +147,4 @@ fun ProductsScreenPreview() {
                 )
             )
         )
-    )
 }

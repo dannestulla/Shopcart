@@ -45,4 +45,8 @@ dependencies {
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
     implementation(Compose.tooling)
+
+    val retrofit_version = "2.9.0"
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
 }

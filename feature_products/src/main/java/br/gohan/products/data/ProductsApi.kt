@@ -1,9 +1,9 @@
 package br.gohan.products.data
 
-import br.gohan.products.presenter.Products
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface ProductsApi {
     @GET("products")
-    fun getProducts(): List<Products>
+    suspend fun getProducts(): Response<List<ProductsData>>
 }

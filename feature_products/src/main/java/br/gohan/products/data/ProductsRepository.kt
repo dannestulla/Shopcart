@@ -1,7 +1,10 @@
 package br.gohan.products.data
 
+import retrofit2.Response
+
 class ProductsRepository(
     private val api: ProductsApi
 ) {
-    fun getProducts(): Any = api.getProducts()
+    suspend fun getProducts() : Response<List<ProductsData>> = api.getProducts()
+
 }
