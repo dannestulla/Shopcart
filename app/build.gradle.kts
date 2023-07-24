@@ -55,11 +55,14 @@ dependencies {
 
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
-    implementation(Compose.toolingPreview)
+    implementation(Compose.tooling)
     implementation(Compose.material3)
+    implementation(Compose.activity)
     implementation(Compose.navigation)
 
+    implementation(Koin.android)
+
     implementation(project(Project.appCore))
-    implementation(project(":feature_products"))
-    implementation(project(":feature_shopcart"))
+    implementation(project(Project.featureProducts))
+    implementation(project(Project.featureShopcart))
 }

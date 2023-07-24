@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "br.gohan.feature_example"
+    namespace = "br.gohan.feature_products"
     compileSdk = 33
 
     defaultConfig {
@@ -43,7 +43,20 @@ dependencies {
     implementation(Compose.material3)
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
-    implementation(Compose.toolingPreview)
+    debugImplementation(Compose.tooling)
     implementation(Compose.material3)
-    implementation(Compose.navigation)
+    implementation(Compose.lifecycle)
+    implementation(Compose.icons)
+
+    implementation(Coil.compose)
+    implementation(Coil.core)
+
+    implementation(Koin.android)
+    implementation(Koin.compose)
+
+    implementation(project(Project.appCore))
+
+    val retrofit_version = "2.9.0"
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
 }
