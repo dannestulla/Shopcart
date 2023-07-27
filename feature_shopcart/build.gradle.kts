@@ -46,6 +46,7 @@ dependencies {
     implementation(Compose.tooling)
     implementation(Compose.material3)
     implementation(Compose.lifecycle)
+    implementation(Compose.icons)
 
     implementation(Coil.compose)
     implementation(Coil.core)
