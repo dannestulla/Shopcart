@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.gohan.core.AppRoutes
-import br.gohan.feature_carrinho.ShopcartScreen
+import br.gohan.shopcart.presenter.ShopcartScreen
 import br.gohan.products.presenter.ProductsScreen
 
 @Composable
