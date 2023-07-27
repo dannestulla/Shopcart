@@ -12,7 +12,8 @@ class ShopcartApplication : Application() {
             androidContext(this@ShopcartApplication)
             modules(
                 listOf(
-                    productsModule
+                    productsModule,
+                    shopcartModule
                 )
             )
         }
