@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -23,12 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.gohan.core.utils.debugPlaceholder
 import br.gohan.feature_carrinho.R
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.getViewModel
@@ -60,7 +64,6 @@ fun ShopcartScreenStateless(products: List<ShopcartState>) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { }
                             .padding(15.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -69,14 +72,12 @@ fun ShopcartScreenStateless(products: List<ShopcartState>) {
                                 .width(75.dp)
                                 .height(75.dp),
                             model = products[it].image,
-                            placeholder = painterResource(R.drawable.orange_svgrepo_com),
+                            placeholder = debugPlaceholder(R.drawable.orange_svgrepo_com),
                             contentDescription = null,
                         )
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
-                                .align(Alignment.CenterVertically)
-                        ) {
+                        Column(modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically)) {
                             Text(
                                 text = products[it].name,
                                 textAlign = TextAlign.Center,
@@ -96,27 +97,30 @@ fun ShopcartScreenStateless(products: List<ShopcartState>) {
                             horizontalAlignment = Alignment.End,
                             verticalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(
-                                text = products[it].price.toString(),
-                                textAlign = TextAlign.Center,
-                                maxLines = 2,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
+                            Icon(
+                                Icons.Rounded.Delete,
+                                contentDescription = stringResource(R.string.clear_button),
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Button(onClick = {
-
-                                }) {
-                                    Text(text = "Add")
-                                    Icon(
-                                        Icons.Rounded.Add,
-                                        contentDescription = "Shopping Cart",
+                                Icon(
+                                    Icons.Default.Remove,
+                                    contentDescription = "Shopping Cart",
+                                )
+                                Card {
+                                    Text(
+                                        text = products[it].quantity.toString(),
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
                                     )
                                 }
-
+                                Icon(
+                                    Icons.Rounded.Add,
+                                    contentDescription = "Shopping Cart",
+                                )
                             }
                         }
 
@@ -124,6 +128,7 @@ fun ShopcartScreenStateless(products: List<ShopcartState>) {
                 }
             }
         }
+
     }
 }
 
