@@ -3,6 +3,7 @@ package br.gohan.shopcart.presenter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.gohan.core.AppEvents
+import br.gohan.core.database.products.ProductsDao
 import br.gohan.shopcart.domain.GetShopcartList
 import br.gohan.shopcart.domain.toShopcartState
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,6 +20,7 @@ class ShopcartViewModel(
 
     init {
         viewModelScope.launch {
+            ProductsDao().getAll()
             val response = getShopcartList.invoke()
             if (response.isSuccessful) {
                 _shopcartState.value = response.body()?.toShopcartState() ?: emptyList()
