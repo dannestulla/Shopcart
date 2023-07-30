@@ -46,14 +46,13 @@ dependencies {
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
     implementation(Compose.tooling)
-
+    
     implementation(Room.runtime)
     kapt(Room.compiler)
 
     implementation(Koin.android)
     implementation(Koin.compose)
 
-    val retrofit_version = "2.9.0"
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation(Retrofit2.core)
+    implementation(Retrofit2.gson)
 }
