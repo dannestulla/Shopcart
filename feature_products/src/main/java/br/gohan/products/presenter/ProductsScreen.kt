@@ -17,8 +17,12 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,19 +33,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.gohan.core.AppEvents
 import br.gohan.feature_products.R
 import coil.compose.AsyncImage
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun ProductsScreen() {
+fun ProductsScreen(appEvents: MutableSharedFlow<AppEvents>, snackbarHostState: SnackbarHostState) {
     val viewModel = getViewModel<ProductsViewModel>()
     val productsState = viewModel.productsState.collectAsStateWithLifecycle()
-    ProductsScreenStateless(productsState.value)
+    val snackbarScope = rememberCoroutineScope()
+    ProductsScreenStateless(productsState.value) { event->
+        handleEvents(event, viewModel, appEvents, snackbarScope, snackbarHostState)
+    }
 }
 
 @Composable
-fun ProductsScreenStateless(products: List<ProductsState>) {
+fun ProductsScreenStateless(products: List<ProductsState>, event: (ProductsEvents) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -107,7 +116,10 @@ fun ProductsScreenStateless(products: List<ProductsState>) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Button(onClick = {
+                                Button(
+                                    enabled = products[it].enabled,
+                                    onClick = {
+                                        event(ProductsEvents.SaveProduct(products[it]))
 
                                 }) {
                                     Text(text = "Add")
@@ -139,8 +151,9 @@ fun ProductsScreenPreview() {
                     price = 2.0,
                     description = "Fruta",
                     id = 12,
-                    image = "https://media.gettyimages.com/id/185284489/pt/foto/de-laranja.jpg?s=2048x2048&w=gi&k=20&c=aD2VbAeEFeX_1if_9bYu57TrH084SPBhHGWcSOSHQrM="
+                    image = ""
                 )
-            )
+            ),
+        event = {}
         )
 }

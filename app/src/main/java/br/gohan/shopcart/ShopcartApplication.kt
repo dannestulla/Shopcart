@@ -1,6 +1,7 @@
 package br.gohan.shopcart
 
 import android.app.Application
+import br.gohan.core.database.databaseModule
 import br.gohan.products.productsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
@@ -13,7 +14,8 @@ class ShopcartApplication : Application() {
             modules(
                 listOf(
                     productsModule,
-                    shopcartModule
+                    shopcartModule,
+                    databaseModule
                 )
             )
         }

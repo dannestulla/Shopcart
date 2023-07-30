@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 android {
@@ -45,6 +46,12 @@ dependencies {
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
     implementation(Compose.tooling)
+    
+    implementation(Room.runtime)
+    kapt(Room.compiler)
+
+    implementation(Koin.android)
+    implementation(Koin.compose)
 
     implementation(Retrofit2.core)
     implementation(Retrofit2.gson)
