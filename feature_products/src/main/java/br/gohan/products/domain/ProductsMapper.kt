@@ -4,7 +4,7 @@ import br.gohan.core.database.products.ProductsEntity
 import br.gohan.products.data.remote.ProductsData
 import br.gohan.products.presenter.ProductsState
 
-fun List<ProductsData>.toProductsState() : List<ProductsState> =
+fun List<ProductsData>.toProductState() : List<ProductsState> =
     this.map {
         ProductsState(
             name = it.title,
@@ -18,9 +18,22 @@ fun List<ProductsData>.toProductsState() : List<ProductsState> =
 fun ProductsState.toProductsEntity() : ProductsEntity =
     ProductsEntity(
         uid = this.id,
-        firstName = this.name,
+        name = this.name,
         price = this.price,
-        quantity = 0,
+        quantity = this.quantity,
         description = this.description,
-        image = this.image)
+        image = this.image
+    )
+
+fun List<ProductsEntity>.toProductsState() : List<ProductsState> =
+    this.map {
+        ProductsState(
+            name = it.name,
+            price = it.price,
+            description = it.description,
+            id = it.uid,
+            image = it.image,
+            quantity = it.quantity
+        )
+    }
 

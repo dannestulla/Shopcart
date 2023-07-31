@@ -1,18 +1,13 @@
 package br.gohan.shopcart.domain
 
-import br.gohan.shopcart.data.ShopcartData
-import br.gohan.shopcart.presenter.ShopcartState
+import br.gohan.core.database.products.ProductsEntity
+import br.gohan.shopcart.presenter.Shopcart
 
-fun List<ShopcartData>.toShopcartState() : List<ShopcartState> =
+fun List<ProductsEntity>.toShopcart() : List<Shopcart> =
     this.map {
-        ShopcartState(
-            name = it.name,
-            price = it.price,
-            description = it.description,
-            id = it.id,
-            image = it.image
-        )
-    }
-
-
-
+            Shopcart(
+                name = it.name,
+                price = it.price,
+                quantity = it.quantity
+            )
+        }

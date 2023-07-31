@@ -1,13 +1,15 @@
 package br.gohan.products.presenter
 
+import android.content.SharedPreferences
 import androidx.compose.material3.SnackbarHostState
-import androidx.lifecycle.SavedStateHandle
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.gohan.core.AppEvents
 import br.gohan.products.domain.GetProductsFromApi
-import br.gohan.products.domain.ManageCheckout
-import br.gohan.products.domain.toProductsState
+import br.gohan.products.domain.LocalCheckout
+import br.gohan.products.domain.toProductState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,51 +18,67 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ProductsViewModel(
-    savedStateHandle: SavedStateHandle,
-    getProductsFromApi: GetProductsFromApi,
-    val manageCheckout: ManageCheckout,
+    remoteData: GetProductsFromApi,
+    val localCheckout: LocalCheckout,
     val appEvents: MutableSharedFlow<AppEvents>,
 ) : ViewModel() {
-    private var _productsState = MutableStateFlow(listOf<ProductsState>())
+    private var _productsState = MutableStateFlow(mutableStateListOf<ProductsState>())
     var productsState = _productsState.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            val response = getProductsFromApi.invoke()
+        viewModelScope.launch(Dispatchers.IO) {
+            val productsSelected = localCheckout.getProductsSelected()
+            val response = remoteData.getProductsList()
             if (response.isSuccessful) {
-                _productsState.value = response.body()?.toProductsState() ?: emptyList()
+                val body = response.body()?.toProductState()
+                body?.map { product ->
+                    product.isLoading = false
+                    productsSelected.forEach { productSelected ->
+                        if (product.id == productSelected.id) {
+                            product.quantity = productSelected.quantity
+                        }
+                    }
+                }
+                _productsState.value = body?.toMutableStateList() ?: mutableStateListOf()
             } else {
                 appEvents.emit(AppEvents.ApiError)
             }
         }
     }
 
-    fun saveProduct(product: ProductsState) {
+    fun addProduct(product: ProductsState) {
         viewModelScope.launch(Dispatchers.IO) {
-            disableButton(product)
-            manageCheckout.saveProduct(product)
+            _productsState.value = _productsState.value.map {
+                if (it.id == product.id) {
+                    it.copy(quantity = ++it.quantity)
+                } else {
+                    it
+                }
+            }.toMutableStateList()
+            localCheckout.addProduct(product.copy(quantity = ++product.quantity))
         }
     }
 
-    private fun disableButton(product: ProductsState) {
-        _productsState.value = _productsState.value.map {
-            if (it.id == product.id) {
-                it.copy(enabled = false)
-            } else {
-                it
-            }
-        }
-    }
-
-    fun deleteAll() {
+    fun removeProduct(removeAll: Boolean, product: ProductsState) {
         viewModelScope.launch(Dispatchers.IO) {
-            manageCheckout.deleteAll()
+            _productsState.value = _productsState.value.map {
+                if (it.id == product.id) {
+                    if (removeAll) {
+                        it.copy(quantity = 0)
+                    } else {
+                        it.copy(quantity = --it.quantity)
+                    }
+                } else {
+                    it
+                }
+            }.toMutableStateList()
+            localCheckout.removeProduct(removeAll, product)
         }
     }
 
-    fun showSnackbar(snackbarScope: CoroutineScope, snackBarHost: SnackbarHostState) {
+    fun showSnackbar(snackbarScope: CoroutineScope, snackBarHost: SnackbarHostState, name: String) {
         snackbarScope.launch {
-            snackBarHost.showSnackbar("Produto adicionado ao carrinho")
+            snackBarHost.showSnackbar("Produto $name adicionado ao carrinho")
         }
     }
 }

@@ -1,10 +1,11 @@
 package br.gohan.products
 
+import android.content.SharedPreferences
 import br.gohan.core.AppEvents
 import br.gohan.products.data.ProductsRepository
 import br.gohan.products.data.remote.ProductsApi
 import br.gohan.products.domain.GetProductsFromApi
-import br.gohan.products.domain.ManageCheckout
+import br.gohan.products.domain.LocalCheckout
 import br.gohan.products.presenter.ProductsViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,7 +19,7 @@ val productsModule = module {
     }
 
     viewModel {
-        ProductsViewModel(get(), get(), get(), get())
+        ProductsViewModel(get(), get(), get())
     }
 
     factory {
@@ -26,7 +27,7 @@ val productsModule = module {
     }
 
     factory {
-        ManageCheckout(get())
+        LocalCheckout(get())
     }
 
     factory {

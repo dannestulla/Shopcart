@@ -1,10 +1,12 @@
 package br.gohan.shopcart.presenter
 
 data class ShopcartState(
+    val products : List<Shopcart> = emptyList(),
+    val total : Double = 0.0
+)
+
+data class Shopcart(
     val name : String,
     val price : Double,
-    val description : String,
-    val id : Int,
     val quantity : Int = 0,
-    val image: String? = null
 )

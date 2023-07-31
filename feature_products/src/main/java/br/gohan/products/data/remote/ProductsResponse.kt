@@ -1,4 +1,5 @@
 package br.gohan.products.data.remote
+
 data class ProductsData(
     val title: String,
     val id: Int,
