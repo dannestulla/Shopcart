@@ -7,6 +7,6 @@ import retrofit2.Response
 class GetProductsFromApi(
     private val repository: ProductsRepository
 ) {
-    suspend fun invoke() : Response<List<ProductsData>> = repository.getProducts()
+    suspend fun getProductsList() : Response<List<ProductsData>> = repository.getProducts()
 
 }

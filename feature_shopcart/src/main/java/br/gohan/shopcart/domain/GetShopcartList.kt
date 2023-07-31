@@ -1,11 +1,10 @@
 package br.gohan.shopcart.domain
 
-import br.gohan.shopcart.data.ShopcartData
 import br.gohan.shopcart.data.ShopcartRepository
-import retrofit2.Response
+import br.gohan.shopcart.presenter.Shopcart
 
 class GetShopcartList(
     private val repository: ShopcartRepository
 ) {
-    suspend fun invoke() : Response<List<ShopcartData>> = repository.getShopcart()
+    suspend fun invoke() : List<Shopcart> = repository.getShopcart().toShopcart()
 }

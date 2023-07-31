@@ -18,7 +18,7 @@ val shopcartModule = module {
     }
 
     viewModel {
-        ShopcartViewModel(get(), get())
+        ShopcartViewModel(get(), get(), get())
     }
 
     factory {

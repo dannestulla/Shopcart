@@ -25,7 +25,7 @@ fun Navigation(
             ProductsScreen(appEvents, snackbarHostState)
         }
         composable(route = AppRoutes.FEATURE_SHOPCART.route) {
-            ShopcartScreen()
+            ShopcartScreen(snackbarHostState)
         }
     }
 }

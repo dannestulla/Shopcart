@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.collectLatest
 sealed class AppEvents {
     class ShowSnackbar(val message: String) : AppEvents()
     object ApiError : AppEvents()
-    object ExceptionError: AppEvents()
 }
 
 suspend fun collectAppEvents(appEvents: SharedFlow<AppEvents>, snackBarHost: SnackbarHostState) {

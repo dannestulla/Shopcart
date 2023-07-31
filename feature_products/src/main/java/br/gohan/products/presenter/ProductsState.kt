@@ -6,5 +6,6 @@ data class ProductsState(
     val description : String,
     val id : Int,
     val image: String? = null,
-    var enabled: Boolean = true
+    var quantity: Int = 0,
+    var isLoading: Boolean = true
 )

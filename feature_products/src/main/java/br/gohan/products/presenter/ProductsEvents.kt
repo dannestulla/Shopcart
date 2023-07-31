@@ -4,11 +4,10 @@ import androidx.compose.material3.SnackbarHostState
 import br.gohan.core.AppEvents
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 sealed class ProductsEvents {
-    data class SaveProduct(val product: ProductsState) : ProductsEvents()
-    object DeleteAll : ProductsEvents()
+    data class AddProduct(val product: ProductsState) : ProductsEvents()
+    data class RemoveProduct(val product: ProductsState, val removeAll: Boolean = false) : ProductsEvents()
 }
 
 fun handleEvents(
@@ -19,12 +18,12 @@ fun handleEvents(
     snackBarHost: SnackbarHostState
 ) {
     when (event) {
-        is ProductsEvents.SaveProduct -> {
-            viewModel.saveProduct(event.product)
-            viewModel.showSnackbar(snackbarScope, snackBarHost)
+        is ProductsEvents.AddProduct -> {
+            viewModel.addProduct(event.product)
+            viewModel.showSnackbar(snackbarScope, snackBarHost, event.product.name)
         }
-        is ProductsEvents.DeleteAll -> {
-            viewModel.deleteAll()
+        is ProductsEvents.RemoveProduct -> {
+            viewModel.removeProduct(event.removeAll, event.product)
         }
     }
 }
