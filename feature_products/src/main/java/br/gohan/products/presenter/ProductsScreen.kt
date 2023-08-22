@@ -3,6 +3,7 @@ package br.gohan.products.presenter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +31,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.gohan.core.AppEvents
 import br.gohan.core.components.ShimmerCard
+import br.gohan.core.values.FeatureFlags
 import br.gohan.core.values.FontSize
 import br.gohan.feature_products.R
+import br.gohan.products.presenter.components.CategoryRow
 import br.gohan.products.presenter.components.ProductCardNotToggled
 import br.gohan.products.presenter.components.ProductCardToggled
 import coil.compose.AsyncImage
@@ -42,11 +45,13 @@ import org.koin.androidx.compose.koinViewModel
 fun ProductsScreen(
     appEvents: MutableSharedFlow<AppEvents>,
     snackbarHostState: SnackbarHostState,
-    viewModel: ProductsViewModel = koinViewModel()
+    viewModel: ProductsViewModel = koinViewModel(),
+    padding: PaddingValues,
 ) {
     val productsState = viewModel.productsState.collectAsStateWithLifecycle()
     val snackbarScope = rememberCoroutineScope()
-    ProductsScreenStateless(productsState.value) { event ->
+    val categoriasFlag = FeatureFlags.getFeatureFlags()["categorias"]
+    ProductsScreenStateless(productsState.value, padding, categoriasFlag) { event ->
         handleEvents(event, viewModel, appEvents, snackbarScope, snackbarHostState)
     }
 }
@@ -54,70 +59,76 @@ fun ProductsScreen(
 @Composable
 fun ProductsScreenStateless(
     products: SnapshotStateList<ProductsState>,
+    padding: PaddingValues,
+    categoriasFlag: Boolean? = true,
     event: (ProductsEvents) -> Unit
-
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .padding(padding)
     ) {
+        if (categoriasFlag == true) {
+            CategoryRow()
+        }
         LazyColumn {
             items(
                 products.size
             ) { index ->
                 ShimmerCard(isLoading = products[index].isLoading, contentAfterLoading = {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp)
-                        .background(Color.White)
-                ) {
-                    Row(
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(10.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .background(Color.White)
                     ) {
-                        AsyncImage(
+                        Row(
                             modifier = Modifier
-                                .width(75.dp)
-                                .height(75.dp),
-                            model = products[index].image,
-                            placeholder = painterResource(R.drawable.orange_svgrepo_com),
-                            contentDescription = null,
-                        )
-                        Column(
-                            modifier = Modifier
-                                .weight(1f)
+                                .fillMaxSize()
+                                .padding(10.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(
-                                modifier = Modifier.align(Alignment.Start),
-                                text = products[index].name,
-                                maxLines = 1,
-                                fontSize = FontSize.medium,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
+                            AsyncImage(
                                 modifier = Modifier
-                                    .align(Alignment.Start)
-                                    .padding(end = 10.dp),
-                                text = products[index].description,
-                                fontStyle = FontStyle.Italic,
-                                lineHeight = 15.sp,
-                                maxLines = 2,
-                                fontSize = FontSize.extraSmall,
+                                    .width(75.dp)
+                                    .height(75.dp),
+                                model = products[index].image,
+                                placeholder = painterResource(R.drawable.orange_svgrepo_com),
+                                contentDescription = null,
                             )
-                        }
-                        if (products[index].quantity > 0) {
-                            ProductCardToggled(products, index, event)
-                        } else {
-                            ProductCardNotToggled(products, index, event)
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                            ) {
+                                Text(
+                                    modifier = Modifier.align(Alignment.Start),
+                                    text = products[index].name,
+                                    maxLines = 1,
+                                    fontSize = FontSize.medium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .align(Alignment.Start)
+                                        .padding(end = 10.dp),
+                                    text = products[index].description,
+                                    fontStyle = FontStyle.Italic,
+                                    lineHeight = 15.sp,
+                                    maxLines = 2,
+                                    fontSize = FontSize.extraSmall,
+                                )
+                            }
+                            if (products[index].quantity > 0) {
+                                ProductCardToggled(products, index, event)
+                            } else {
+                                ProductCardNotToggled(products, index, event)
+                            }
                         }
                     }
-                }
-            })}
+                })
+            }
         }
     }
 }
@@ -140,6 +151,7 @@ fun ProductsScreenPreview() {
     }
     ProductsScreenStateless(
         products = mockList,
+        padding = PaddingValues(),
         event = {}
     )
 }

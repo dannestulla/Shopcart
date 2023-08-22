@@ -19,7 +19,7 @@ val productsModule = module {
     }
 
     viewModel {
-        ProductsViewModel(get(), get(), get())
+        ProductsViewModel(get(), get(), get(), get())
     }
 
     factory {

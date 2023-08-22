@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -64,4 +65,8 @@ dependencies {
     implementation(project(Project.appCore))
     implementation(project(Project.featureProducts))
     implementation(project(Project.featureShopcart))
+
+    implementation(platform(Firebase.bom))
+    implementation(Firebase.analytics)
+    implementation(Firebase.remoteConfig)
 }

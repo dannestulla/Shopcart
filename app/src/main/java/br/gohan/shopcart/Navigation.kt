@@ -1,5 +1,6 @@
 package br.gohan.shopcart
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -15,17 +16,18 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 fun Navigation(
     navController: NavHostController,
     appEvents: MutableSharedFlow<AppEvents>,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    padding: PaddingValues
 ) {
     NavHost(
         navController = navController,
         startDestination = AppRoutes.FEATURE_PRODUCTS.route
     ) {
         composable(route = AppRoutes.FEATURE_PRODUCTS.route) {
-            ProductsScreen(appEvents, snackbarHostState)
+            ProductsScreen(appEvents, snackbarHostState, padding = padding)
         }
         composable(route = AppRoutes.FEATURE_SHOPCART.route) {
-            ShopcartScreen(snackbarHostState)
+            ShopcartScreen(snackbarHostState, padding)
         }
     }
 }
