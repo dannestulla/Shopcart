@@ -55,4 +55,7 @@ dependencies {
 
     implementation(Retrofit2.core)
     implementation(Retrofit2.gson)
+
+    implementation(platform(Firebase.bom))
+    implementation(Firebase.remoteConfig)
 }

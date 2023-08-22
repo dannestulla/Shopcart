@@ -3,6 +3,7 @@ package br.gohan.shopcart.presenter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,23 +30,27 @@ import br.gohan.core.values.FontSize
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun ShopcartScreen(snackbarHostState: SnackbarHostState) {
+fun ShopcartScreen(snackbarHostState: SnackbarHostState, padding: PaddingValues) {
     val viewModel = getViewModel<ShopcartViewModel>()
     val shopcartState = viewModel.shopcartState.collectAsStateWithLifecycle()
     val snackbarScope = rememberCoroutineScope()
-    ShopcartScreenStateless(shopcartState.value) {
+    ShopcartScreenStateless(shopcartState.value, padding) {
         viewModel.handleEvents(it, snackbarHostState, snackbarScope)
     }
 }
 
 @Composable
-fun ShopcartScreenStateless(state: ShopcartState, events: (ShopcartEvents) -> Unit) {
+fun ShopcartScreenStateless(
+    state: ShopcartState,
+    padding: PaddingValues,
+    events: (ShopcartEvents) -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
+            .padding(padding)
     ) {
         Text(
             text = "Total de itens: ${state.products.size}",
@@ -127,6 +132,8 @@ fun ShopcartScreenStateless(state: ShopcartState, events: (ShopcartEvents) -> Un
 @Composable
 fun ProductsScreenPreview() {
     ShopcartScreenStateless(
+        padding = PaddingValues(),
+        state =
         ShopcartState(
             total = 230.0,
             products =

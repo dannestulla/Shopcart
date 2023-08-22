@@ -7,5 +7,6 @@ data class ProductsState(
     val id : Int,
     val image: String? = null,
     var quantity: Int = 0,
-    var isLoading: Boolean = true
+    var isLoading: Boolean = true,
+    var error: Boolean = false
 )

@@ -41,14 +41,14 @@ class MainActivity : ComponentActivity() {
                             navController.navigate(it.route)
                         }
                     }
-                ) { paddingValues ->
+                ) { padding ->
                     Surface(
                         modifier = Modifier
                             .fillMaxSize()
                             .fillMaxWidth(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        Navigation(navController, _appEvents, snackbarHostState)
+                        Navigation(navController, _appEvents, snackbarHostState, padding)
                     }
                 }
             }
