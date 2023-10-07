@@ -21,7 +21,7 @@ jobs:
        - name: Setup Gradle
          uses: gradle/gradle-build-action@v2
         
-       - name: Build Debug APK
+       - name: Run build with Gradle wrapper
          run: ./gradlew assembleDebug
 
        - name: Get app version
