@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "br.gohan.feature_carrinho"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "br.gohan.app_core"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
