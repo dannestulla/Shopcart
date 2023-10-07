@@ -27,9 +27,9 @@ jobs:
        - name: Run build with Gradle wrapper
          run: ./gradlew assembleDebug
 
-       - name: Get app version
-         id: get_version
-         uses: eriknyk/android-get-app-version-action@v1.0.1
+       #- name: Get app version
+       #  id: get_version
+       #  uses: eriknyk/android-get-app-version-action@v1.0.1
         
        - name: Upload APK
          uses: actions/upload-artifact@v3
