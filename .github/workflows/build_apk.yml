@@ -18,11 +18,17 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Build Release APK
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+        
+      - name: Build with Gradle
+        run: ./gradlew build
+        
+      - name: Build Debug APK
         run: ./gradlew assembleDebug
         
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: app/build/outputs/apk/release/app-release.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
