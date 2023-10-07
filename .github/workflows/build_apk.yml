@@ -19,14 +19,10 @@ jobs:
           distribution: 'adopt'
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleDebug
         
-      - uses: r0adkll/sign-android-release@v1
-      - name: Sign Release APK
-        id: sign_app
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
         with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          name: app
+          path: app/build/outputs/apk/release/app-release.apk
