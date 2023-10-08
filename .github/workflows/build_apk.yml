@@ -37,10 +37,10 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
-       - name: Pull request artifacts
-         uses: gavv/pull-request-artifacts@v2
-         with:
-          commit: ${{ github.event.pull_request.head.sha }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: |
-            app/build/outputs/apk/debug/app-debug.apk
+       #- name: Pull request artifacts
+       #  uses: gavv/pull-request-artifacts@v2
+       #  with:
+       #   commit: ${{ github.event.pull_request.head.sha }}
+       #   repo-token: ${{ secrets.GITHUB_TOKEN }}
+       #   artifacts: |
+       #     app/build/outputs/apk/debug/app-debug.apk
