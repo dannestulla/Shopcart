@@ -39,13 +39,12 @@ jobs:
          with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
-          
-       - name: add artifact links to pull request and related issues step
-         uses: tonyhallett/artifacts-url-comments@v1.1.0
-         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+       - name: Pull request artifacts
+         uses: gavv/pull-request-artifacts@v2
          with:
-            prefix: Here are the artifacts 
-            suffix: Have a nice day.
-            format: name
-            addTo: pullandissues
+          # Commit hash that triggered PR
+          commit: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: |
+            app-debug.apk
