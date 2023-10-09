@@ -30,6 +30,9 @@ jobs:
        - name: Run build with Gradle wrapper
          run: ./gradlew assembleDebug
 
+       - name: Rename file 
+         run: mv oldfile.txt newfile.txt
+
        #- name: Get app version
        #  id: get_version
        #  uses: eriknyk/android-get-app-version-action@v1.0.1
@@ -40,7 +43,7 @@ jobs:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
-       - name: Pull request artifacts
+       - name: Post apk comment
          uses: gavv/pull-request-artifacts@v2
          with:
           # Commit hash that triggered PR
