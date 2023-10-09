@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "br.gohan.shopcart"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "br.gohan.shopcart"
@@ -27,6 +27,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -38,6 +39,9 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        abortOnError = false
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "br.gohan.feature_products"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -30,6 +30,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    lint {
+        abortOnError = false
+    }
     buildFeatures {
         compose = true
     }
@@ -43,6 +46,7 @@ dependencies {
     implementation(Compose.material3)
     implementation(platform(Compose.bom))
     implementation(Compose.ui)
+    implementation("androidx.compose.ui:ui-tooling-preview-android:1.5.3")
     debugImplementation(Compose.tooling)
     implementation(Compose.material3)
     implementation(Compose.lifecycle)

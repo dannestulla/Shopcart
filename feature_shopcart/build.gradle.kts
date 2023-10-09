@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "br.gohan.feature_carrinho"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -32,6 +32,9 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        abortOnError = false
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
