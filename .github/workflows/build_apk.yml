@@ -46,6 +46,6 @@ jobs:
           # Commit hash that triggered PR
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts-branch: prartifacts
+          artifacts-branch: artifacts
           artifacts: |
             app/build/outputs/apk/debug/app-debug.apk
